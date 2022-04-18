@@ -1,0 +1,25 @@
+steps:
+  # Docker Build
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - build
+      - -t
+      - react-chat-app:$TAG_NAME
+      - "."
+
+  # Docker Push
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - push
+      - gcr.io/$PROJECT_ID/react-chat-app:$TAG_NAME
+
+  # Deploy container image to GKE
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - run
+      - --filename=kubernetes-resource-file
+      - --image=gcr.io/$PROJECT_ID/react-chat-app:$TAG_NAME
+      - --location=$_CLUSTER_LOCATION
+      - --cluster=$_CLUSTER_NAME
+      - --project=$PROJECT_ID
+

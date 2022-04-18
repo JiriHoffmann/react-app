@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: react-chat-app
+  name: react-chat-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: react-chat-app
+  template:
+    metadata:
+      labels:
+        run: react-chat-app
+    spec:
+      containers:
+        name: react-chat-app
+        ports:
+        - containerPort: 3000
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: react-chat-app
+spec:
+  selector:
+     run: react-chat-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: react-chat-app
+# spec:
+#   #type of the service
+#   type: NodePort
+#   selector:
+#     app: react-chat-app
+#   ports:
+#   - port: 3000
+#     targetPort: 3000
+#     protocol: TCP
+#     nodePort: 31000
