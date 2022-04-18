@@ -1,19 +1,22 @@
-FROM node:alpine
-WORKDIR /app
-
-# Install dependency to serve static build
-RUN npm install -g serve
-
-# install app dependencies with caching
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm i
-
-
-ENV PATH="./node_modules/.bin:$PATH"
-
+FROM node:17 AS app-build
+WORKDIR /usr/src/app
 COPY . .
-
+RUN npm install
 RUN npm run build
-EXPOSE 3000
-CMD ["serve", "-s", "-n", "build"]
+
+
+FROM nginx:alpine
+
+#!/bin/sh
+
+COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy from the stage 1
+COPY --from=app-build /usr/src/app/build/ /usr/share/nginx/html
+
+EXPOSE 4200 80
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

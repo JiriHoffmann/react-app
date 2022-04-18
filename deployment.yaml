@@ -1,48 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  creationTimestamp: null
   labels:
-    run: react-chat-app
-  name: react-chat-app
+    app: nginx-webapp
+  name: nginx-webapp
 spec:
-  replicas: 2
   selector:
     matchLabels:
-      run: react-chat-app
+      app: nginx-webapp
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        run: react-chat-app
+        app: nginx-webapp
     spec:
       containers:
-        name: react-chat-app
+        name: webapp
+        imagePullPolicy: Always
+        resources: {}
         ports:
-        - containerPort: 3000
+          - containerPort: 80 
+status: {}
 
 ---
-kind: Service
+
 apiVersion: v1
+kind: Service
 metadata:
-  name: react-chat-app
+  name: nginx-webapp
+  labels:
+    run: nginx-webapp
 spec:
-  selector:
-     run: react-chat-app
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 3000
+  - port: 80
+    protocol: TCP
+  selector:
+    app: nginx-webapp
   type: LoadBalancer
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: react-chat-app
-# spec:
-#   #type of the service
-#   type: NodePort
-#   selector:
-#     app: react-chat-app
-#   ports:
-#   - port: 3000
-#     targetPort: 3000
-#     protocol: TCP
-#     nodePort: 31000
