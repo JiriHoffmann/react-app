@@ -17,7 +17,7 @@ steps:
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
       - run
-      - --filename=kubernetes-resource-file
+      - --filename=deployment.yaml
       - --image=gcr.io/$PROJECT_ID/react-chat-app:$TAG_NAME
       - --location=$_CLUSTER_LOCATION
       - --cluster=$_CLUSTER_NAME
