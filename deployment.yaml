@@ -1,41 +1,58 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
-    app: nginx-webapp
-  name: nginx-webapp
+    app: nginx-react-chat-app
+  name: nginx-react-chat-app
+  namespace: default
 spec:
+  replicas: 3
   selector:
     matchLabels:
-      app: nginx-webapp
-  strategy: {}
+      app: nginx-react-chat-app
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: nginx-webapp
+        app: nginx-react-chat-app
     spec:
       containers:
-        name: webapp
-        imagePullPolicy: Always
-        resources: {}
-        ports:
-          - containerPort: 80
-status: {}
-
+        - image: gcr.io/final-346218/react-chat-app:latest
+          imagePullPolicy: Always
+          name: react-chat-app-1
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: nginx-react-chat-app
+  name: nginx-react-chat-app-hpa-mvhr
+  namespace: default
+spec:
+  maxReplicas: 5
+  metrics:
+    - resource:
+        name: cpu
+        targetAverageUtilization: 80
+      type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-react-chat-app
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-webapp
+  name: nginx-webapp-service
+  namespace: default
   labels:
-    run: nginx-webapp
+    app: nginx-webapp
 spec:
   ports:
-    - port: 80
-      protocol: TCP
+  - protocol: TCP
+    port: 80
+    targetPort: 80
   selector:
     app: nginx-webapp
   type: LoadBalancer
+  loadBalancerIP: ""
