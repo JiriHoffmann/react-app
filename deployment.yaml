@@ -19,6 +19,7 @@ spec:
         - image: gcr.io/final-346218/react-chat-app:latest
           imagePullPolicy: Always
           name: react-chat-app
+
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
@@ -46,13 +47,14 @@ metadata:
   name: react-chat-app-ingress
   annotations:
     # Update with a certificate name
-    networking.gke.io/managed-certificates: "680-chat-app-cert"
+    networking.gke.io/managed-certificates: 680-chat-app-cert
     # Update with static ip name
-    networking.gke.io/static-ip: "chat-app-ip"
+    kubernetes.io/ingress.global-static-ip-name: chat-app-ip
+    kubernetes.io/ingress.allow-http: "false"
 spec:
   defaultBackend:
     service:
-      name: nginx-react-chat-app-load-balancer
+      name: react-chat-app-load-balancer
       port:
         number: 80
 
@@ -60,10 +62,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-react-chat-app-load-balancer
+  name: react-chat-app-load-balancer
+  annotations:
+    # Doesn't give an external ip
+    cloud.google.com/load-balancer-type: "Internal"
   labels:
     app: react-chat-app
-    app.kubernetes.io/managed-by: gcp-cloud-build-deploy
 spec:
   ports:
   - protocol: TCP
@@ -72,4 +76,3 @@ spec:
   selector:
     app: react-chat-app
   type: LoadBalancer
-  loadBalancerIP: ""
