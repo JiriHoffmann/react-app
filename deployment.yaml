@@ -57,6 +57,16 @@ spec:
     targetPort: 80
 
 ---
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: react-chat-app-frontend-config
+spec:
+  redirectToHttps:
+    enabled: true
+    responseCodeName: MOVED_PERMANENTLY_DEFAULT
+
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -66,18 +76,10 @@ metadata:
     networking.gke.io/managed-certificates: "680-chat-app-cert"
     # Update with static ip name
     kubernetes.io/ingress.global-static-ip-name: "chat-app-ip"
+    networking.gke.io/v1beta1.FrontendConfig: react-chat-app-frontend-config
 spec:
   defaultBackend:
     service:
       name: react-chat-app-service 
       port:
         number: 80
-
----
-apiVersion: networking.gke.io/v1beta1
-kind: FrontendConfig
-metadata:
-  name: react-chat-app-frontend-config
-spec:
-  redirectToHttps:
-    enabled: true
