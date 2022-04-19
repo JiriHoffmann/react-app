@@ -46,13 +46,14 @@ metadata:
   name: nginx-react-chat-app-service
   namespace: default
   labels:
-    app: nginx-service
+    app: nginx-react-chat-app
+    app.kubernetes.io/managed-by: gcp-cloud-build-deploy
 spec:
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
   selector:
-    app: nginx-service
+    app: nginx-react-chat-app
   type: LoadBalancer
   loadBalancerIP: ""
