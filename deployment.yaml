@@ -56,4 +56,4 @@ spec:
   selector:
     app: nginx-react-chat-app
   type: LoadBalancer
-  loadBalancerIP: ""
+  loadBalancerIP: 35.202.9.65
