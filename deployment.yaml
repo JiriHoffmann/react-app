@@ -51,6 +51,7 @@ metadata:
     # Update with static ip name
     kubernetes.io/ingress.global-static-ip-name: chat-app-ip
     kubernetes.io/ingress.allow-http: "false"
+    kubernetes.io/ingress.class: "gce-internal"
 spec:
   defaultBackend:
     service:
