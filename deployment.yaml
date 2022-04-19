@@ -41,25 +41,6 @@ spec:
     name: react-chat-app
 
 ---
-apiVersion: "networking.k8s.io/v1"
-kind: Ingress
-metadata:
-  name: react-chat-app-ingress
-  annotations:
-    # Update with a certificate name
-    networking.gke.io/managed-certificates: 680-chat-app-cert
-    # Update with static ip name
-    kubernetes.io/ingress.global-static-ip-name: chat-app-ip
-    kubernetes.io/ingress.allow-http: "false"
-    kubernetes.io/ingress.class: "gce-internal"
-spec:
-  defaultBackend:
-    service:
-      name: react-chat-app-load-balancer
-      port:
-        number: 80
-
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -77,3 +58,33 @@ spec:
   selector:
     app: react-chat-app
   type: LoadBalancer
+
+---
+apiVersion: "networking.k8s.io/v1"
+kind: Ingress
+metadata:
+  name: react-chat-app-ingress
+  annotations:
+    # Update with a certificate name
+    networking.gke.io/managed-certificates: 680-chat-app-cert
+    # Update with static ip name
+    kubernetes.io/ingress.global-static-ip-name: chat-app-ip
+    kubernetes.io/ingress.class: gce-internal
+    kubernetes.io/ingress.allow-http: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: react-chat-app-load-balancer
+            port:
+              number: 80
+# spec:
+#   defaultBackend:
+#     service:
+#       name: react-chat-app-load-balancer
+#       port:
+#         number: 80
