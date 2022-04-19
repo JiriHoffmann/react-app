@@ -76,6 +76,7 @@ metadata:
     networking.gke.io/managed-certificates: "680-chat-app-cert"
     # Update with static ip name
     kubernetes.io/ingress.global-static-ip-name: "chat-app-ip"
+    kubernetes.io/ingress.class: "gce"
     networking.gke.io/v1beta1.FrontendConfig: react-chat-app-frontend-config
 spec:
   defaultBackend:
