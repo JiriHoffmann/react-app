@@ -48,7 +48,7 @@ metadata:
     # Update with a certificate name
     networking.gke.io/managed-certificates: "680-chat-app-cert"
     # Update with static ip name
-    kubernetes.io/ingress.global-static-ip-name: "chat-app-ip"
+    networking.gke.io/static-ip: "chat-app-ip"
 spec:
   defaultBackend:
     service:
@@ -72,3 +72,4 @@ spec:
   selector:
     app: react-chat-app
   type: LoadBalancer
+  loadBalancerIP: ""
