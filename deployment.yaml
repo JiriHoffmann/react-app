@@ -46,6 +46,7 @@ kind: Service
 metadata:
   name: react-chat-app-service
   annotations:
+    # Sets up a load balancer for the service
     cloud.google.com/neg: '{"ingress": true}' 
 spec:
   type: ClusterIP
