@@ -4,3 +4,6 @@ npm-debug.log
 **/.git
 **/.DS_Store
 **/node_modules
+../out
+../.env
+../.next
