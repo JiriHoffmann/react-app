@@ -28,7 +28,7 @@ export default function Home() {
       <header>
         <div className="header">
           <a href="#default" className="logo">
-            React Chat App Demo
+            React Chat App
           </a>
           {auth.currentUser && (
             <div className="header-right">
