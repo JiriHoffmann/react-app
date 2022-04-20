@@ -1,7 +1,5 @@
 # Clustered web app on GCP with a CI/CD pipeline
 
-## Steps to reproduce
-
 ### 1. Clone the repository
 
 ### 2. Create a Kubernetes cluster
@@ -13,7 +11,7 @@
 - For configuration select: `Cloud Build configuration file (yaml or json)`
 - Add/Skip Substitution variables - used as environment variables
 - Add the same variables as `--build-arg` in `cloudbuild.yaml`
-- `IAM & Admin` -> `IAM` -> add `Kubernetes Engine Developer` role to the cloudbuild service accoun
+- `IAM & Admin` -> `IAM` -> add `Kubernetes Engine Developer` role to the cloudbuild service account
 
 ### 4. VPC network
 - Create new static external IP address: `VPC network` -> `Extrenal IP address` -> reserve IP address
