@@ -9,7 +9,7 @@
 - Select trigger event
 - Give Cloud Build access to the repository
 - For configuration select: `Cloud Build configuration file (yaml or json)`
-- Add/Skip Substitution variables - used as environment variables
+- Add/Skip Substitution variables - used as build arguments and turned into environment variables
 - Add the same variables as `--build-arg` in `cloudbuild.yaml`
 - `IAM & Admin` -> `IAM` -> add `Kubernetes Engine Developer` role to the cloudbuild service account
 
