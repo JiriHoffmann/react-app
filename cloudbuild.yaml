@@ -6,6 +6,21 @@ steps:
       - -t
       - gcr.io/$PROJECT_ID/react-chat-app:$TAG_NAME
       - "."
+    env:
+      - name: "REACT_APP_API_KEY"
+        value: $_REACT_APP_API_KEY
+      - name: "REACT_APP_AUTH_DOMAIN"
+        value: $_REACT_APP_AUTH_DOMAIN
+      - name: "REACT_APP_PROJECT_ID"
+        value: $_REACT_APP_PROJECT_ID
+      - name: "REACT_APP_STORAGE_BUCKET"
+        value: $_REACT_APP_STORAGE_BUCKET
+      - name: "REACT_APP_MESSAGING_SENDER_ID"
+        value: $_REACT_APP_MESSAGING_SENDER_ID
+      - name: "REACT_APP_APP_ID"
+        value: $_REACT_APP_APP_ID
+      - name: "REACT_APP_MEASUREMENT_ID"
+        value: $_REACT_APP_MEASUREMENT_ID
 
   # Docker Push
   - name: "gcr.io/cloud-builders/docker"
